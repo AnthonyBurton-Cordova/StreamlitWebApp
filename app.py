@@ -12,7 +12,12 @@ st.write("""
 This application allows you to upload network traffic data, run a pre-trained model, and receive predictions.
 """)
 
-# Replace 'YOUR_SELECTOR_FILE_ID' with the actual file ID from Google Drive
+# URLs to your model artifacts
+model_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/neural_network_model.joblib'
+scaler_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/scaler.joblib'
+features_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/features_list.joblib'
+
+# Download selector from google drive
 selector_file_id = '1409kJ5YR9rCcui9fo-LoiA_xoEvVj7Kq'
 selector_destination = 'selector.joblib'
 st.write("Downloading the selector from Google Drive...")
@@ -23,12 +28,7 @@ try:
     st.success(f"Selector downloaded successfully as '{selector_destination}'.")
 except Exception as e:
     st.error(f"An error occurred while downloading the selector: {e}")
-
-# URLs to your model artifacts (excluding the selector)
-model_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/neural_network_model.joblib'
-scaler_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/scaler.joblib'
-features_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/features_list.joblib'
-
+    
 # Function to load joblib files from URL
 def load_joblib_from_url(url):
     response = requests.get(url)
