@@ -80,9 +80,10 @@ def preprocess_data(df):
     # Scale the data
     X_scaled = scaler.transform(df)
 
-    # Since we're not using the selector, return the scaled data
-    return X_scaled
+    # Feature selection
+    X_selected = selector.transform(X_scaled)
 
+    return X_selected
 
 if uploaded_file is not None:
     try:
@@ -118,7 +119,6 @@ else:
 
 st.header("Chat Bot Interface")
 
-
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
@@ -146,5 +146,3 @@ for message in st.session_state.messages:
         st.markdown(f"**You:** {message['text']}")
     else:
         st.markdown(f"**Bot:** {message['text']}")
-
-
