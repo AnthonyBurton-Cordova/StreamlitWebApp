@@ -12,6 +12,18 @@ st.write("""
 This application allows you to upload network traffic data, run a pre-trained model, and receive predictions.
 """)
 
+# Replace 'YOUR_SELECTOR_FILE_ID' with the actual file ID from Google Drive
+selector_file_id = '1409kJ5YR9rCcui9fo-LoiA_xoEvVj7Kq'
+selector_destination = 'selector.joblib'
+st.write("Downloading the selector from Google Drive...")
+selector_url = f"https://drive.google.com/file/d/1409kJ5YR9rCcui9fo-LoiA_xoEvVj7Kq/view?usp=sharing"
+
+try:
+    gdown.download(selector_url, selector_destination, quiet=False)
+    st.success(f"Selector downloaded successfully as '{selector_destination}'.")
+except Exception as e:
+    st.error(f"An error occurred while downloading the selector: {e}")
+
 # URLs to your model artifacts (excluding the selector)
 model_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/neural_network_model.joblib'
 scaler_url = 'https://raw.githubusercontent.com/AnthonyBurton-Cordova/SLADA_Project/main/scaler.joblib'
@@ -26,6 +38,7 @@ def load_joblib_from_url(url):
 model = load_joblib_from_url(model_url)
 scaler = load_joblib_from_url(scaler_url)
 features = load_joblib_from_url(features_url)
+selector = load_joblib_from_url(features_url)
 
 uploaded_file = st.file_uploader("Choose a CSV file to upload", type="csv")
 
