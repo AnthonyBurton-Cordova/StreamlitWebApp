@@ -104,3 +104,32 @@ else:
 
 st.header("Chat Bot Interface")
 
+
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
+user_input = st.text_input("You:", "")
+
+if user_input:
+    st.session_state.messages.append({"user": "You", "text": user_input})
+
+    if uploaded_file is not None:
+        if 'attack' in user_input.lower():
+            attack_count = data['Prediction'].sum()
+            response = f"There are {attack_count} potential attacks detected in the uploaded data."
+        elif 'benign' in user_input.lower() or 'safe' in user_input.lower():
+            benign_count = len(data) - data['Prediction'].sum()
+            response = f"There are {benign_count} benign instances in the uploaded data."
+        else:
+            response = "Please ask about potential attacks or the safety of the network traffic."
+    else:
+        response = "Please upload data first."
+
+    st.session_state.messages.append({"user": "Bot", "text": response})
+
+for message in st.session_state.messages:
+    if message["user"] == "You":
+        st.markdown(f"**You:** {message['text']}")
+    else:
+        st.markdown(f"**Bot:** {message['text']}")
+
