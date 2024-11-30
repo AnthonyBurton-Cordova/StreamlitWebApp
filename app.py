@@ -1,7 +1,7 @@
+from google.colab import drive
 import streamlit as st
 import pandas as pd
 import numpy as np
-import drive
 import joblib
 import requests
 import io
