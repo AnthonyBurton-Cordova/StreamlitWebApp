@@ -69,3 +69,38 @@ def preprocess_data(df):
     # Since we're not using the selector, return the scaled data
     return X_scaled
 
+
+if uploaded_file is not None:
+    try:
+        data = pd.read_csv(uploaded_file)
+        st.write("Preview of uploaded data:")
+        st.dataframe(data.head())
+
+        X_preprocessed = preprocess_data(data)
+
+        # Make predictions
+        predictions = model.predict(X_preprocessed)
+        data['Prediction'] = predictions
+
+        # Map predictions to labels
+        label_mapping = {0: 'Benign', 1: 'Attack'}
+        data['Prediction Label'] = data['Prediction'].map(label_mapping)
+
+        st.write("Predictions:")
+        st.dataframe(data[['Prediction Label']])
+
+        # Display prediction summary
+        st.write("Prediction Summary:")
+        prediction_counts = data['Prediction Label'].value_counts()
+        st.bar_chart(prediction_counts)
+
+        st.write("Detailed Data with Predictions:")
+        st.dataframe(data)
+
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+else:
+    st.write("Awaiting CSV file to be uploaded.")
+
+st.header("Chat Bot Interface")
+
