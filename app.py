@@ -25,3 +25,6 @@ def load_joblib_from_url(url):
 model = load_joblib_from_url(model_url)
 scaler = load_joblib_from_url(scaler_url)
 features = load_joblib_from_url(features_url)
+
+uploaded_file = st.file_uploader("Choose a CSV file to upload", type="csv")
+
