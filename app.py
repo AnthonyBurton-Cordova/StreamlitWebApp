@@ -9,7 +9,7 @@ import os
 
 st.title("Network Traffic Classification App")
 st.write("""
-This application allows you to upload network traffic data, run a pre-trained model, and receive predictions.
+This application allows you to upload network traffic data, run a pre-trained model, and receive threat predictions.
 """)
 
 # URLs to your model artifacts
@@ -47,7 +47,7 @@ scaler = load_joblib_from_url(scaler_url)
 features = load_joblib_from_url(features_url)
 selector = load_joblib_from_url(features_url)
 
-uploaded_file = st.file_uploader("Choose a CSV file to upload", type="csv")
+uploaded_file = st.file_uploader("Please upload a CSV file of network traffic data for analysis", type="csv")
 
 def preprocess_data(df):
     try:
