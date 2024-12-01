@@ -62,9 +62,8 @@ def preprocess_data(df):
 
         # Handle missing values
         df = df.dropna(thresh=int(0.5 * df.shape[0]), axis=1)
-        for col in df.columns:
-            if df[col].dtype in ['float64', 'int64']:
-                df[col].fillna(df[col].median(), inplace=True)
+        for col in df.select_dtypes(include=['float64', 'int64']).columns:
+            df.loc[:, col] = df[col].fillna(df[col].median())
 
         # Drop duplicates
         df = df.drop_duplicates()
@@ -73,8 +72,8 @@ def preprocess_data(df):
         if 'Timestamp' in df.columns:
             try:
                 df['Timestamp'] = pd.to_datetime(df['Timestamp'], errors='coerce')
-                df['Timestamp_numeric'] = df['Timestamp'].astype(int) / 10**9  # Convert to Unix timestamp
-                df['Hour'] = df['Timestamp'].dt.hour
+                df.loc[:, 'Timestamp_numeric'] = df['Timestamp'].astype(int) / 10**9
+                df.loc[:, 'Hour'] = df['Timestamp'].dt.hour
             except Exception as e:
                 st.warning(f"Timestamp conversion failed: {e}")
             finally:
